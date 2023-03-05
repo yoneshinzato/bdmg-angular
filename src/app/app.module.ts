@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddressFormComponent } from './address-form/address-form.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -23,6 +25,8 @@ import { MatCardModule } from '@angular/material/card';
     MatExpansionModule,
     MatInputModule,
     MatCardModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   declarations: [AppComponent, HelloComponent, AddressFormComponent],
   bootstrap: [AppComponent],
