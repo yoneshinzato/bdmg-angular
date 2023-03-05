@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../model/address.model';
 import { AppService } from '../services/app.service';
 
@@ -10,10 +11,18 @@ import { AppService } from '../services/app.service';
 export class AddressFormComponent implements OnInit {
   address: Address;
 
-  constructor(public service: AppService) {}
+  form: FormGroup;
+
+  constructor(public service: AppService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.getAdd();
+
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.required],
+      message: ['', Validators.required],
+    });
   }
 
   getAdd(): void {
@@ -21,5 +30,10 @@ export class AddressFormComponent implements OnInit {
       this.address = res;
       console.log(res);
     });
+  }
+
+  onSubmit(): void {
+    localStorage.setItem('formData', JSON.stringify(this.form.value));
+    this.form.reset();
   }
 }
