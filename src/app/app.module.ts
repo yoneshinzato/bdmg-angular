@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { FormatCepPipe } from './pipes/format-cep.pipe';
 
 @NgModule({
   imports: [
@@ -28,8 +29,13 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatIconModule,
   ],
-  declarations: [AppComponent, HelloComponent, AddressFormComponent],
+  declarations: [
+    AppComponent,
+    HelloComponent,
+    AddressFormComponent,
+    FormatCepPipe,
+  ],
   bootstrap: [AppComponent],
-  providers: [AppService],
+  providers: [AppService, FormatCepPipe],
 })
 export class AppModule {}
