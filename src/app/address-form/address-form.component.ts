@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from '../model/address.model';
 import { AppService } from '../services/app.service';
 
@@ -10,30 +10,50 @@ import { AppService } from '../services/app.service';
 })
 export class AddressFormComponent implements OnInit {
   address: Address;
+  addressForm: FormGroup;
+  formattedCep: string;
+  
 
-  form: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+    private addressService: AppService,
 
-  constructor(public service: AppService, private fb: FormBuilder) {}
+  ) {}
 
   ngOnInit(): void {
-    this.getAdd();
+    this.addressService.getAddress().subscribe((response) => {
 
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      message: ['', Validators.required],
+      this.address = response;
+
+      this.createForm();
+
+      const addressData = localStorage.getItem('formData')
+
+      if(addressData) {
+        const updateAddressData = JSON.parse(addressData)
+        this.addressForm.patchValue(updateAddressData)
+      }
+
     });
   }
 
-  getAdd(): void {
-    this.service.getAddress().subscribe((res: Address) => {
-      this.address = res;
-      console.log(res);
-    });
+
+  createForm() {
+    this.addressForm = new FormGroup({
+      cep: new FormControl(this.address.cep),
+      logradouro: new FormControl(this.address.logradouro),
+      complemento: new FormControl(this.address.complemento),
+      bairro: new FormControl(this.address.bairro),
+      localidade: new FormControl(this.address.localidade),
+      uf: new FormControl(this.address.uf),
+      ibge: new FormControl({value: this.address.ibge, disabled: true}),
+      gia: new FormControl(this.address.gia),
+      ddd: new FormControl(this.address.ddd),
+      siafi: new FormControl({value: this.address.siafi, disabled: true}),
+    })
   }
 
-  onSubmit(): void {
-    localStorage.setItem('formData', JSON.stringify(this.form.value));
-    this.form.reset();
+  saveAddress() {
+    localStorage.setItem('formData', JSON.stringify(this.addressForm.value));
   }
 }

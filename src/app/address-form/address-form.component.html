@@ -1,27 +1,52 @@
+
 <div class="container">
   <mat-card>
-    <mat-card-header>
-      <mat-card-title>Contact Us</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" />
-          <mat-error>Name is required</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" />
-          <mat-error>Email is required</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Message</mat-label>
-          <textarea matInput formControlName="message"></textarea>
-          <mat-error>Message is required</mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="primary">Submit</button>
-      </form>
-    </mat-card-content>
+      <mat-card-header>Formulário</mat-card-header>
+      <mat-card-content>
+          <form [formGroup]="addressForm" class="form" *ngIf="addressForm" (ngSubmit)="saveAddress()">
+              <mat-form-field class="form-full-width">
+                  <mat-label>CEP</mat-label>
+                  <input matInput formControlName="cep" name="CEP" [value]="addressForm.get('cep')?.value | formatCep">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>Logradouro</mat-label>
+                  <input matInput formControlName="logradouro" name="Logradouro">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>Complemento</mat-label>
+                  <input matInput formControlName="complemento" name="Complemento" [value]="addressForm.get('complemento')?.value | formatMilhar">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>Bairro</mat-label>
+                  <input matInput formControlName="bairro" name="Bairro">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>Localidade</mat-label>
+                  <input matInput formControlName="localidade" name="Localidade">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>UF</mat-label>
+                  <input matInput formControlName="uf" name="UF">
+              </mat-form-field>
+          
+              <mat-form-field class="form">
+                  <mat-label>GIA</mat-label>
+                  <input matInput formControlName="gia" name="GIA">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>DDD</mat-label>
+                  <input matInput formControlName="ddd" name="DDD">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>IBGE</mat-label>
+                  <input matInput formControlName="ibge" name="IBGE">
+              </mat-form-field>
+              <mat-form-field class="form">
+                  <mat-label>SIAFI</mat-label>
+                  <input matInput formControlName="siafi" name="SIAFI">
+              </mat-form-field>
+              <button mat-raised-button color="primary">Salvar Dados</button>
+          </form>
+      </mat-card-content>
   </mat-card>
 </div>
