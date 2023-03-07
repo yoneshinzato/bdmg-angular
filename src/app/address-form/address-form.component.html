@@ -16,26 +16,44 @@
             name="CEP"
             [value]="addressForm.get('cep')?.value | formatCep"
           />
+          <mat-error *ngIf="addressForm.controls.cep.invalid">
+            {{ displayCepErrorMsg() }}
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="form">
           <mat-label>Logradouro</mat-label>
           <input matInput formControlName="logradouro" name="Logradouro" />
+          <mat-error *ngIf="addressForm.controls.logradouro.invalid">
+            Campo obrigatório
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="form">
           <mat-label>Complemento</mat-label>
           <input matInput formControlName="complemento" name="Complemento" />
+          <mat-error *ngIf="addressForm.controls.complemento.invalid">
+            Campo obrigatório
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="form">
           <mat-label>Bairro</mat-label>
           <input matInput formControlName="bairro" name="Bairro" />
+          <mat-error *ngIf="addressForm.controls.bairro.invalid">
+            Campo obrigatório
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="form">
           <mat-label>Localidade</mat-label>
           <input matInput formControlName="localidade" name="Localidade" />
+          <mat-error *ngIf="addressForm.controls.localidade.invalid">
+            Campo obrigatório
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="form">
           <mat-label>UF</mat-label>
           <input matInput formControlName="uf" name="UF" />
+          <mat-error *ngIf="addressForm.controls.uf.invalid">
+            Campo obrigatório
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="form">
@@ -45,6 +63,9 @@
         <mat-form-field class="form">
           <mat-label>DDD</mat-label>
           <input matInput formControlName="ddd" name="DDD" />
+          <mat-error *ngIf="addressForm.controls.ddd.invalid">
+            Campo obrigatório
+          </mat-error>
         </mat-form-field>
         <mat-form-field class="form">
           <mat-label>IBGE</mat-label>

@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Address } from '../model/address.model';
 import { AppService } from '../services/app.service';
 
@@ -12,48 +17,73 @@ export class AddressFormComponent implements OnInit {
   address: Address;
   addressForm: FormGroup;
   formattedCep: string;
-  
 
-  constructor(
-    private fb: FormBuilder,
-    private addressService: AppService,
-
-  ) {}
+  constructor(private fb: FormBuilder, private addressService: AppService) {}
 
   ngOnInit(): void {
     this.addressService.getAddress().subscribe((response) => {
-
       this.address = response;
 
       this.createForm();
 
-      const addressData = localStorage.getItem('formData')
+      const addressData = localStorage.getItem('formData');
 
-      if(addressData) {
-        const updateAddressData = JSON.parse(addressData)
-        this.addressForm.patchValue(updateAddressData)
+      if (addressData) {
+        const updateAddressData = JSON.parse(addressData);
+        this.addressForm.patchValue(updateAddressData);
       }
-
     });
   }
 
-
   createForm() {
     this.addressForm = new FormGroup({
-      cep: new FormControl(this.address.cep),
-      logradouro: new FormControl(this.address.logradouro),
-      complemento: new FormControl(this.address.complemento),
-      bairro: new FormControl(this.address.bairro),
+      cep: new FormControl(
+        this.address.cep,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.minLength(8),
+          Validators.maxLength(8),
+        ])
+      ),
+      logradouro: new FormControl(this.address.logradouro, Validators.required),
+      complemento: new FormControl(
+        this.address.complemento,
+        Validators.required
+      ),
+      bairro: new FormControl(this.address.bairro, Validators.required),
       localidade: new FormControl(this.address.localidade),
-      uf: new FormControl(this.address.uf),
-      ibge: new FormControl({value: this.address.ibge, disabled: true}),
-      gia: new FormControl(this.address.gia),
-      ddd: new FormControl(this.address.ddd),
-      siafi: new FormControl({value: this.address.siafi, disabled: true}),
-    })
+      uf: new FormControl(this.address.uf, Validators.required),
+      ibge: new FormControl({ value: this.address.ibge, disabled: true }),
+      gia: new FormControl(this.address.gia, Validators.required),
+      ddd: new FormControl(this.address.ddd, Validators.required),
+      siafi: new FormControl({ value: this.address.siafi, disabled: true }),
+    });
   }
 
   saveAddress() {
-    localStorage.setItem('formData', JSON.stringify(this.addressForm.value));
+    if (this.addressForm.valid) {
+      localStorage.setItem('formData', JSON.stringify(this.addressForm.value));
+    }
+  }
+
+  displayCepErrorMsg() {
+    if (this.addressForm.controls.cep.hasError('required')) {
+      return 'CEP é obrigatório!';
+    }
+
+    if (this.addressForm.controls.cep.hasError('pattern')) {
+      return 'O CEP só pode ter númeross';
+    }
+
+    if (this.addressForm.controls.cep.hasError('minlength')) {
+      return 'O CEP precisa ter exatamente 8 números';
+    }
+
+    if (this.addressForm.controls.cep.hasError('maxlength')) {
+      return 'O CEP precisa ter exatamente 8 números';
+    }
+
+    return '';
   }
 }
